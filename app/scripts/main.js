@@ -8,6 +8,7 @@ var x = {
 	data:[],
 	prevChars:[],
 	currCharInHistory:-1,
+	
 
 	initApp:function(){
 

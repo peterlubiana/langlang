@@ -3,6 +3,10 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+
+$skewdeg:3deg;
+
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -106,14 +110,17 @@ body {
 }
 
 #learningboard{
+
+  transform:skewY($skewdeg);
   margin:auto;
   margin-bottom:10px;
   width:80%;
-  height:300px;
+  min-height:300px;
   background:#f0f0f0;
   text-align:center;
 
   span{
+    transform:skewY(-$skewdeg);
     display:block;
     margin:10px;
   }
