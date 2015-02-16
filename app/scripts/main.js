@@ -6,6 +6,8 @@
 var x = {
 
 	data:[],
+	prevChars:[],
+	currCharInHistory:-1,
 
 	initApp:function(){
 
@@ -46,6 +48,30 @@ var x = {
 
 		return  t.data[rand];
 
+	},
+
+	pushCharToHistory:function(chardata){
+		this.prevChars.push(chardata);
+		this.currCharInHistory++;
+	},
+
+	pushRandomCharacter:function(){
+		var data = this.getRandomCharacter();
+			this.pushCharacterToBoard(data);
+			this.pushCharToHistory(data);
+
+	},
+
+	pushPrevCharacter:function(){
+		if(this.currCharInHistory>0)
+			this.currCharInHistory--;
+		this.pushCharacterToBoard(this.prevChars[this.currCharInHistory]);
+	},
+
+	pushNextChar:function(){
+		if(this.currCharInHistory <= this.prevChars.length-1)
+		this.currCharInHistory++;
+		this.pushCharacterToBoard(this.prevChars[this.currCharInHistory]);
 	},
 
 
@@ -103,11 +129,31 @@ var x = {
 		});
 
 		$(document).on('click','#appnav_nextbutton',function(){
-			var data = t.getRandomCharacter();
-			t.pushCharacterToBoard(data);
+			if(t.currCharInHistory != t.prevChars.length-1)
+					t.pushNextChar();
+				else
+					t.pushRandomCharacter();
 		});
 
+		$(document).on("keydown",function(e){
+			var key = e.key;
+			if(key === "Space" || key === "Right"){
+				if(t.currCharInHistory != t.prevChars.length-1)
+					t.pushNextChar();
+				else
+					t.pushRandomCharacter();
+			}
+
+			if(key === "Left"){
+				if(t.currCharInHistory>-1)
+				t.pushPrevCharacter();
+			}
+
+			console.log(t.prevChars.length);
+			console.log(t.currCharInHistory);
+		});
 	},
+
 
 };
 
