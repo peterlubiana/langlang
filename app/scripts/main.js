@@ -62,13 +62,13 @@ var x = {
 
 	},
 
-	pushPrevCharacter:function(){
+	pushPrevCharacterInHistory:function(){
 		if(this.currCharInHistory>0)
 			this.currCharInHistory--;
 		this.pushCharacterToBoard(this.prevChars[this.currCharInHistory]);
 	},
 
-	pushNextChar:function(){
+	pushNextCharInHistory:function(){
 		if(this.currCharInHistory <= this.prevChars.length-1)
 		this.currCharInHistory++;
 		this.pushCharacterToBoard(this.prevChars[this.currCharInHistory]);
@@ -85,7 +85,8 @@ var x = {
 		var html_char = '<span class="board_char">'+d.char+'</span>';
 		var html_translation ='<span class="board_translation">'+d.translation+'</span>';
 		//var html_pinyin = "<span class='board_pinyin'>"+d.pinyin+"</span>"
-		var $html = html_char+/*html_pinyin+*/html_translation;
+		var html_num = '<span class="board_number">#'+d.num+'</span>'
+		var $html = html_char+/*html_pinyin+*/html_translation+html_num;
 		    
 		    
 
@@ -130,7 +131,7 @@ var x = {
 
 		$(document).on('click','#appnav_nextbutton',function(){
 			if(t.currCharInHistory != t.prevChars.length-1)
-					t.pushNextChar();
+					t.pushNextCharInHistory();
 				else
 					t.pushRandomCharacter();
 		});
@@ -139,14 +140,14 @@ var x = {
 			var key = e.key;
 			if(key === "Space" || key === "Right"){
 				if(t.currCharInHistory != t.prevChars.length-1)
-					t.pushNextChar();
+					t.pushNextCharInHistory();
 				else
 					t.pushRandomCharacter();
 			}
 
 			if(key === "Left"){
 				if(t.currCharInHistory>-1)
-				t.pushPrevCharacter();
+				t.pushPrevCharacterInHistory();
 			}
 
 			console.log(t.prevChars.length);
