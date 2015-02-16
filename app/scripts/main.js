@@ -5,15 +5,25 @@
 
 var x = {
 
+	data:[],
+
 	initApp:function(){
 
 
 		x.hideNShow();
+		x.getHanziData();
 		x.bindHandlers();
 
 	},
 
-	
+	getHanziData:function(){
+		var _this = this;
+		$.getJSON( 'data/hanzi2715.json', function( data ) {
+		  	_this.data = data['hanzi2715'];
+
+		  	console.log(_this.data);
+  	    });
+	},
 
 	hideStartMenu:function(){
 		$('.jumbotron').hide();
@@ -21,20 +31,20 @@ var x = {
 	},
 
 	hideNShow:function(){
-		$("#app-navigation").hide();
-		$("#learningboard").hide();
+		$('#app-navigation').hide();
+		$('#learningboard').hide();
 	},
 
 	getRandomCharacter:function(){
 
 		var t = this;
-		var chars = [new t.CharacterModel('我',"I / me, character refering to 1. person","wǒ"),
-					 new t.CharacterModel('人',"person / human","rén"),
-					 new t.CharacterModel('你',"you, character refering to 2. person","nǐ")];
+		var chars = [new t.CharacterModel('我','I / me, character refering to 1. person','wǒ'),
+					 new t.CharacterModel('人','person / human','rén'),
+					 new t.CharacterModel('你','you, character refering to 2. person','nǐ')];
 
-					 var rand = Math.round(Math.random()*(chars.length-1));
+					 var rand = Math.round(Math.random()*(t.data.length-1));
 
-		return  chars[rand];
+		return  t.data[rand];
 
 	},
 
@@ -46,14 +56,14 @@ var x = {
 		var d = chardata;
 
 		// Build up html for the data.
-		var html_char = "<span class='board_char'>"+d.char+"</span>";
-		var html_translation ="<span class='board_translation'>"+d.translation+"</span>";
-		var html_pinyin = "<span class='board_pinyin'>"+d.pinyin+"</span>"
-		var $html = html_char+html_pinyin+html_translation;
+		var html_char = '<span class="board_char">'+d.char+'</span>';
+		var html_translation ='<span class="board_translation">'+d.translation+'</span>';
+		//var html_pinyin = "<span class='board_pinyin'>"+d.pinyin+"</span>"
+		var $html = html_char+/*html_pinyin+*/html_translation;
 		    
 		    
 
-		$("#learningboard").html($html);
+		$('#learningboard').html($html);
 	},
 
 
@@ -86,13 +96,13 @@ var x = {
 		$(document).on('click','#startbutton',function(){
 			t.hideStartMenu();
 			var data = t.getRandomCharacter();
-			$("#app-navigation").show();
+			$('#app-navigation').show();
 
 			t.pushCharacterToBoard(data);
-			$("#learningboard").show();
+			$('#learningboard').show();
 		});
 
-		$(document).on("click","#appnav_nextbutton",function(){
+		$(document).on('click','#appnav_nextbutton',function(){
 			var data = t.getRandomCharacter();
 			t.pushCharacterToBoard(data);
 		});
